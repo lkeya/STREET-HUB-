@@ -3,277 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STREET HUB - Investor Demo</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <title>VendorStack - Investor Demo</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f7fafc; color: #2d3748; }
-        .container { max-width: 600px; margin: auto; background-color: white; min-height: 100vh; position: relative; }
-        .card { background-color: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.5rem; }
-        .kpi-card { @apply flex flex-col items-start p-4 rounded-lg; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .progress-bar-container { width: 100%; background-color: #e2e8f0; border-radius: 9999px; height: 12px; overflow: hidden; }
-        .progress-bar { background-color: #3b82f6; height: 100%; transition: width 0.5s ease-in-out; }
-        .map-container { height: 80vh; width: 100%; background-color: #e2e8f0; position: relative; overflow: hidden; }
-        .vendor-pin { width: 40px; height: 40px; background-color: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem; position: absolute; transform: translate(-50%, -50%); border: 2px solid white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); }
-        .darnal-pin { background-color: #48bb78; }
-        .tab-content { display: none; padding: 1rem; }
-        .tab-content.active { display: block; }
-        .message-box { position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); background-color: #2d3748; color: white; padding: 1rem 2rem; border-radius: 8px; text-align: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); z-index: 50; display: none; }
+        :root {
+            --primary: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f3f4f6;
+            --dark: #1f2937;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        h1 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background-color: #1e40af;
+            transform: translateY(-2px);
+        }
+        .screen {
+            display: none;
+            padding: 2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            margin-top: 1rem;
+            background: var(--light);
+        }
+        .active {
+            display: block;
+        }
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 1rem;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .stat-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .progress-bar {
+            height: 20px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 10px;
+            width: 65%; /* Represents 65% progress to next level */
+        }
+        .log-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: var(--warning);
+            color: white;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        .map-container {
+            height: 300px;
+            background: #e2e8f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1.5rem 0;
+            color: #64748b;
+            font-weight: 600;
+        }
+        .team-list {
+            list-style: none;
+            padding: 0;
+        }
+        .team-member {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
-<body class="p-2 sm:p-4">
-    <div class="container rounded-lg shadow-lg overflow-hidden p-0">
+<body>
+    <div class="container">
+        <header>
+            <h1>VendorStack</h1>
+            <p class="subtitle">The Digital Operating System for Africa's Informal Economy</p>
+            <p class="subtitle"><strong>Investor Demo</strong> - Narrating the Vision</p>
+        </header>
 
-        <!-- Role Selection Screen -->
-        <div id="role-select" class="tab-content active p-8 text-center h-screen flex flex-col justify-center items-center">
-            <h1 class="text-3xl font-bold mb-2 text-gray-800">STREET HUB</h1>
-            <p class="text-gray-600 font-medium mb-4">Powering The Street Economy</p>
-            <p class="text-sm text-gray-500 mb-8">A VendorStack Ltd. Company. Built to handle street FMCGs, starting with ice cream.</p>
-            <div class="space-y-4 w-full px-4">
-                <button onclick="showDashboard('manufacturer-dashboard')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors">Manufacturer/Distributor</button>
-                <button onclick="showDashboard('vendor-dashboard')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors">Vendor</button>
-                <button onclick="showDashboard('customer-app')" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 rounded-lg transition-colors">Customer</button>
+        <div class="nav-buttons">
+            <button onclick="showScreen('intro')">Introduction</button>
+            <button onclick="showScreen('vendor')">Vendor App</button>
+            <button onclick="showScreen('manufacturer')">Manufacturer Portal</button>
+            <button onclick="showScreen('metrics')">Key Metrics</button>
+        </div>
+
+        <!-- INTRODUCTION SCREEN -->
+        <div id="intro" class="screen active">
+            <div class="card">
+                <h2>The VendorStack Story</h2>
+                <p>This demo illustrates our proven model, built from a decade of operational experience in Kenya's ice cream supply chain.</p>
+                <p><strong>Our Core Innovation:</strong> A replicable career path that transforms vendors into distributors, creating a defensible ecosystem moat.</p>
+            </div>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number">57:1</div>
+                    <div>Portfolio LTV:CAC Ratio</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">100%</div>
+                    <div>Loan Repayment Rate</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">80%</div>
+                    <div>Of Eldoret's Distributors Are Our Alumni</div>
+                </div>
+            </div>
+            <button onclick="showScreen('vendor')">Explore the Vendor Journey →</button>
+        </div>
+
+        <!-- VENDOR APP SCREEN -->
+        <div id="vendor" class="screen">
+            <div class="card">
+                <h2>Vendor App: Vincent's Journey</h2>
+                <p>Vincent is a street vendor. His journey to becoming a business owner starts here.</p>
+            </div>
+
+            <div class="card">
+                <h3>📊 Vincent's Dashboard</h3>
+                <p><strong>Today's Sales:</strong> KES 3,500 | <strong>Commission:</strong> KES 52.5</p>
+                <p><strong>Current Loan Balance:</strong> KES 2,100</p>
+
+                <h4>Career Path Progress</h4>
+                <p><strong>Vendor Level 2</strong> → <strong>Team Leader</strong></p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <p>🎯 <strong>Path to Promotion:</strong> Maintain consistent sales for 45 more days.</p>
+            </div>
+
+            <div class="card">
+                <h3>💳 Automated Transaction Ledger</h3>
+                <p>Every sale automatically reconciles repayment and commissions.</p>
+                <div class="log-entry">
+                    <span>Sale: Chocolate Cone</span>
+                    <span>+ KES 100</span>
+                </div>
+                <div class="log-entry">
+                    <span style="color: var(--success);">→ Loan Repayment (1.5%)</span>
+                    <span>- KES 1.5</span>
+                </div>
+                <div class="log-entry">
+                    <span style="color: var(--success);">→ Commission Earned (1.5%)</span>
+                    <span>+ KES 1.5</span>
+                </div>
+                <div class="log-entry">
+                    <span><strong>New Loan Balance:</strong></span>
+                    <span><strong>KES 1,899</strong></span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🏆 Gamification & Achievements</h3>
+                <p><span class="badge">🔥</span> <strong>10-Day Streak!</strong> You've sold every day for 10 days.</p>
+                <p><span class="badge">💰</span> <strong>Loan Repaid!</strong> You've successfully repaid your first inventory loan.</p>
+                <p>These achievements unlock higher credit limits and faster progression.</p>
+            </div>
+
+            <button onclick="showScreen('promotion')">See Vincent's Promotion →</button>
+        </div>
+
+        <!-- PROMOTION SCREEN -->
+        <div id="promotion" class="screen">
+            <div class="card" style="text-align: center; background-color: #dbeafe;">
+                <h2>🎉 Congratulations Vincent! 🎉</h2>
+                <p><strong>You've been promoted to Team Leader!</strong></p>
+                <p>You can now manage a team of 3 vendors and earn a 0.5% override on their sales.</p>
+            </div>
+
+            <div class="card">
+                <h3>👥 Your Team Performance</h3>
+                <ul class="team-list">
+                    <li class="team-member">
+                        <span>David (Vendor)</span>
+                        <span>KES 2,800 today</span>
+                    </li>
+                    <li class="team-member">
+                        <span>Sarah (Vendor)</span>
+                        <span>KES 3,100 today</span>
+                    </li>
+                    <li class="team-member">
+                        <span>Mike (Vendor)</span>
+                        <span>KES 2,500 today</span>
+                    </li>
+                </ul>
+                <p><strong>Your Team Override Earned Today:</strong> KES 42.0</p>
+            </div>
+            <p><em>This is the ladder of economic mobility we build. Vincent was a vendor in 2019. He is now a distributor in Eldoret managing 6 vendors.</em></p>
+            <button onclick="showScreen('manufacturer')">See the Manufacturer's View →</button>
+        </div>
+
+        <!-- MANUFACTURER PORTAL SCREEN -->
+        <div id="manufacturer" class="screen">
+            <div class="card">
+                <h2>Manufacturer Intelligence Portal</h2>
+                <p>This is the high-value data platform that manufacturers pay for.</p>
+            </div>
+
+            <div class="card">
+                <h3>📍 Real-Time Sales Heatmap</h3>
+                <div class="map-container">
+                    [Map of Kenya showing high sales concentration in Eldoret, Nairobi, Kisii, and Thika]
+                </div>
+                <p><strong>Insight:</strong> 45% of total sales come from Central Kenya region.</p>
+            </div>
+
+            <div class="card">
+                <h3>📈 AI-Powered Demand Forecasting</h3>
+                <p><strong>Product: Chocolate Cone</strong></p>
+                <p>Forecast predicts a <span style="color: var(--success);">15% increase in demand</span> in Machakos County next week, based on historical sales data and weather patterns.</p>
+                <p><strong>Recommendation:</strong> Pre-stock distributors in the area with 15% additional inventory.</p>
+            </div>
+
+            <div class="card">
+                <h3>🏆 Top Performing Distributors</h3>
+                <ol>
+                    <li><strong>Eldoret Distributor (Vincent)</strong> - 28% growth month-on-month</li>
+                    <li>Kisii Franchise Partner - 18% growth</li>
+                    <li>Nairobi (Buru Buru) Distributor - 15% growth</li>
+                </ol>
+            </div>
+            <button onclick="showScreen('metrics')">View Financial Metrics →</button>
+        </div>
+
+        <!-- KEY METRICS SCREEN -->
+        <div id="metrics" class="screen">
+            <div class="card">
+                <h2>Key Investment Metrics</h2>
+                <p>Validated through our manual MVP and ready to scale with technology.</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number">57:1</div>
+                    <div>LTV:CAC Ratio</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">100%</div>
+                    <div>Repayment Rate</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">₦6.6M</div>
+                    <div>Annualized GMV</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Monetization Strategy</h3>
+                <p><strong>1. Transaction Fee:</strong> 1.5% facilitation fee on inventory loans.</p>
+                <p><strong>2. SaaS Subscription:</strong> KES 5,000/month per manufacturer/distributor for premium analytics.</p>
+                <p><strong>3. Data Intelligence:</strong> Premium market insights reports for large FMCG brands.</p>
+            </div>
+
+            <div class="card">
+                <h3>Immediate Use of Funds</h3>
+                <p><strong>✓ Build Automated Platform:</strong> Systemize our proven manual process.</p>
+                <p><strong>✓ Validate with Captive Network:</strong> 40+ vendors, 3 distributors, 1 manufacturer.</p>
+                <p><strong>✓ Prove Model Across Seasons:</strong> 12-month validation to generate bulletproof data for Seed round.</p>
             </div>
         </div>
-
-        <!-- Manufacturer/Distributor Dashboard -->
-        <div id="manufacturer-dashboard" class="tab-content">
-            <header class="p-4 text-center border-b border-gray-200 flex justify-between items-center">
-                <button onclick="showDashboard('role-select')" class="text-gray-500 hover:text-gray-700 transition-colors"><i class="fa-solid fa-arrow-left"></i></button>
-                <h1 class="text-xl font-bold">STREET HUB Dashboard</h1>
-                <div class="w-6"></div>
-            </header>
-            <main class="p-4 space-y-4">
-                <!-- Unit Economics -->
-                <section class="card">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Key Unit Economics (Per Vendor)</h3>
-                    <div class="grid grid-cols-2 gap-2 text-sm text-gray-700">
-                        <div class="kpi-card bg-green-50">
-                            <p>Customer Lifetime Value (LTV)</p>
-                            <span class="font-bold text-lg text-green-700">KES 12,000</span>
-                        </div>
-                        <div class="kpi-card bg-red-50">
-                            <p>Customer Acquisition Cost (CAC)</p>
-                            <span class="font-bold text-lg text-red-700">KES 2,000</span>
-                        </div>
-                        <div class="kpi-card bg-purple-50">
-                            <p>LTV:CAC Ratio</p>
-                            <span class="font-bold text-lg text-purple-700">6:1</span>
-                        </div>
-                        <div class="kpi-card bg-blue-50">
-                            <p>Avg. Vendors Per Manufacturer</p>
-                            <span class="font-bold text-lg text-blue-700">10</span>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- Market Intelligence Section -->
-                <section class="card">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Market Intelligence & Prediction</h3>
-                    <div class="map-container relative">
-                        <img src="https://placehold.co/600x400/e2e8f0/4a5568?text=Map+of+Nairobi" alt="Map of Nairobi" class="w-full h-full object-cover rounded-lg">
-                        <div class="absolute top-4 left-1/2 -translate-x-1/2 bg-white px-4 py-2 rounded-full shadow-lg">
-                            <p class="text-sm font-semibold">Today's Hot Zones</p>
-                        </div>
-                        <!-- Mock Heat Zones -->
-                        <div class="absolute bg-red-500 opacity-50 rounded-full w-24 h-24" style="top: 60%; left: 30%;"></div>
-                        <div class="absolute bg-orange-500 opacity-50 rounded-full w-16 h-16" style="top: 25%; left: 65%;"></div>
-                        <div class="absolute bg-green-500 opacity-50 rounded-full w-12 h-12" style="top: 80%; left: 80%;"></div>
-                        <!-- Mock Event Pin -->
-                        <i class="fa-solid fa-star text-yellow-400 absolute text-xl" style="top: 40%; left: 45%;"></i>
-                        <p class="absolute bottom-4 left-4 text-xs bg-white px-2 py-1 rounded-full shadow-md">Upcoming Event: Marathon at CBD</p>
-                    </div>
-                </section>
-            
-                <!-- Manufacturing & Inventory -->
-                <section class="card">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Manufacturing Module</h3>
-                    <div class="space-y-2 text-sm text-gray-600">
-                        <div class="flex justify-between items-center">
-                            <span>Darnal Powder in Stock</span>
-                            <span class="font-bold text-green-600">500 kg</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span>Last Production Batch</span>
-                            <span>September 9, 2025</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span>Average Darnal Use / Vendor</span>
-                            <span>2.5 kg/day</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Vendor List -->
-                <section class="card">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Your Vendors</h3>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between items-center p-2 rounded-lg bg-gray-50">
-                            <p>Jane's Cool Treats</p>
-                            <div class="text-right">
-                                <p class="font-bold text-green-600">KES 2,400</p>
-                                <p class="text-xs text-gray-500">Sales Last 24hrs</p>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center p-2 rounded-lg bg-gray-50">
-                            <p>John's Tricycle</p>
-                            <div class="text-right">
-                                <p class="font-bold text-green-600">KES 1,900</p>
-                                <p class="text-xs text-gray-500">Sales Last 24hrs</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </main>
-        </div>
-
-        <!-- Vendor Dashboard -->
-        <div id="vendor-dashboard" class="tab-content">
-            <header class="p-4 text-center border-b border-gray-200 flex justify-between items-center">
-                <button onclick="showDashboard('role-select')" class="text-gray-500 hover:text-gray-700 transition-colors"><i class="fa-solid fa-arrow-left"></i></button>
-                <h1 class="text-xl font-bold">STREET HUB for Vendors</h1>
-                <div class="w-6"></div>
-            </header>
-            <main class="p-4 space-y-4">
-                <!-- KPI Section -->
-                <section class="grid grid-cols-2 gap-2">
-                    <div class="kpi-card bg-white">
-                        <p class="text-xs text-gray-500">Daily Inventory Loan</p>
-                        <h2 class="text-xl font-bold text-gray-800 mt-1">KES 3,500</h2>
-                    </div>
-                    <div class="kpi-card bg-white">
-                        <p class="text-xs text-gray-500">Today's Sales</p>
-                        <h2 class="text-xl font-bold text-green-600 mt-1">KES 3,000</h2>
-                    </div>
-                    <div class="kpi-card bg-white">
-                        <p class="text-xs text-gray-500">Your Net Profit</p>
-                        <h2 class="text-xl font-bold text-purple-600 mt-1">KES 1,200</h2>
-                    </div>
-                    <div class="kpi-card bg-white">
-                        <p class="text-xs text-gray-500">Member Since</p>
-                        <h2 class="text-xl font-bold text-blue-600 mt-1">8 months</h2>
-                    </div>
-                </section>
-        
-                <!-- Financial Breakdown & Savings -->
-                <section class="card">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Today's Financial Breakdown</h3>
-                    <div class="space-y-1 text-sm">
-                        <div class="flex justify-between items-center text-gray-700">
-                            <span>Total Sales from Tricycle</span>
-                            <span class="font-bold">KES 3,000</span>
-                        </div>
-                        <div class="flex justify-between items-center text-gray-700">
-                            <span>Fintech Loan Repayment (1.5% fee included)</span>
-                            <span class="font-bold text-red-600">- KES 2,100</span>
-                        </div>
-                        <div class="flex justify-between items-center text-gray-700">
-                            <span>Automated Growth Savings</span>
-                            <span class="font-bold text-red-600">- KES 100</span>
-                        </div>
-                        <hr class="border-gray-200 my-1">
-                        <div class="flex justify-between items-center text-base text-green-600 font-bold">
-                            <span>Your Final Net Profit (to M-Pesa)</span>
-                            <span>KES 800</span>
-                        </div>
-                    </div>
-                </section>
-        
-                <!-- Growth Pathway Section -->
-                <section class="card">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Your Path to Becoming a Distributor</h3>
-                    <div class="space-y-2">
-                        <div class="flex justify-between items-center text-gray-600 text-sm">
-                            <span class="font-medium">Tier 1: Reliable Vendor</span>
-                            <span>15 of 20 days complete</span>
-                        </div>
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" style="width: 75%;"></div>
-                        </div>
-                        <div class="flex justify-between items-center mt-2">
-                            <div class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full">
-                                Badge Earned: <span class="font-bold">Trusted Seller</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-        
-                <!-- Market Intelligence Teaser -->
-                <section class="card">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Market Intelligence</h3>
-                    <div class="p-4 bg-gray-100 rounded-lg text-center">
-                        <i class="fa-solid fa-lock text-3xl text-gray-400 mb-2"></i>
-                        <p class="font-semibold text-gray-600">Unlock your selling edge!</p>
-                        <p class="text-sm text-gray-500 mt-1">Work with a certified manufacturer to access the profit heat map and event calendar.</p>
-                    </div>
-                </section>
-            </main>
-        </div>
-
-        <!-- Customer App -->
-        <div id="customer-app" class="tab-content">
-            <header class="p-4 text-center border-b border-gray-200 flex justify-between items-center">
-                <button onclick="showDashboard('role-select')" class="text-gray-500 hover:text-gray-700 transition-colors"><i class="fa-solid fa-arrow-left"></i></button>
-                <h1 class="text-xl font-bold">STREET HUB Customer</h1>
-                <div class="w-6"></div>
-            </header>
-            
-            <main class="h-[calc(100vh-100px)] flex flex-col">
-                <div class="p-4 text-center">
-                    <h2 class="text-xl font-semibold mb-2">Find Your Treat</h2>
-                    <input type="text" placeholder="Search for flavors or products..." class="w-full p-2 pl-4 rounded-full border border-gray-300 focus:outline-none focus:border-blue-400 shadow-md text-sm">
-                </div>
-
-                <div class="flex-grow map-container relative">
-                    <img src="https://placehold.co/500x800/e2e8f0/4a5568?text=Map+of+Nairobi" alt="Map of Nairobi" class="w-full h-full object-cover">
-                    <!-- Vendor Pins -->
-                    <div class="vendor-pin darnal-pin" style="top: 30%; left: 25%;" data-vendor="John's Tricycle" data-rating="4.8">
-                        <i class="fa-solid fa-ice-cream"></i>
-                    </div>
-                    <div class="vendor-pin" style="top: 55%; left: 70%;" data-vendor="Jane's Popsicles" data-rating="4.2">
-                        <i class="fa-solid fa-ice-cream"></i>
-                    </div>
-                    <div class="vendor-pin darnal-pin" style="top: 70%; left: 45%;" data-vendor="The Creamery Crew" data-rating="4.9">
-                        <i class="fa-solid fa-ice-cream"></i>
-                    </div>
-                </div>
-
-                <div class="p-4 border-t border-gray-200">
-                    <h2 class="text-lg font-semibold mb-2">Home Delivery & Feedback</h2>
-                    <p class="text-sm text-gray-600 mb-2">Future MVP Feature: Place an order for your next event or birthday party!</p>
-                    <button onclick="showMessage('Home delivery coming soon!')" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg text-sm">
-                        Place Bulk Order
-                    </button>
-                    <p class="text-sm text-gray-600 mt-4 mb-2">Future MVP Feature: Your feedback helps us ensure quality.</p>
-                    <button onclick="showMessage('Feedback module coming soon!')" class="w-full bg-yellow-600 text-white font-bold py-2 rounded-lg text-sm">
-                        Leave Feedback
-                    </button>
-                </div>
-            </main>
-        </div>
-
     </div>
 
-    <div id="message-box" class="message-box"></div>
-
     <script>
-        function showDashboard(id) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            // Show the requested screen
+            document.getElementById(screenId).classList.add('active');
         }
-        
-        function showMessage(text) {
-            const msgBox = document.getElementById('message-box');
-            msgBox.textContent = text;
-            msgBox.style.display = 'block';
-            setTimeout(() => {
-                msgBox.style.display = 'none';
-            }, 3000);
-        }
-
-        window.onload = () => showDashboard('role-select');
     </script>
 </body>
-</html>
-
+            </html>
