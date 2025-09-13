@@ -3,361 +3,586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VendorStack - Investor Demo</title>
+    <title>VendorStack - Powering The Street Economy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #2563eb;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --light: #f3f4f6;
+            --secondary: #10b981;
+            --accent: #f59e0b;
             --dark: #1f2937;
+            --light: #f3f4f6;
+            --gray: #9ca3af;
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f8fafc;
-            color: #334155;
+            box-sizing: border-box;
         }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f9fafb;
+        }
+        
         .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
+        
         header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        h1 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-        .subtitle {
-            color: #64748b;
-            font-size: 1.1rem;
-        }
-        .nav-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
-        button {
-            background-color: var(--primary);
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
             color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        button:hover {
-            background-color: #1e40af;
-            transform: translateY(-2px);
-        }
-        .screen {
-            display: none;
-            padding: 2rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            margin-top: 1rem;
-            background: var(--light);
-        }
-        .active {
-            display: block;
-        }
-        .card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 1rem;
-        }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        .stat-box {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-        .progress-bar {
-            height: 20px;
-            background: #e2e8f0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-        .progress-fill {
-            height: 100%;
-            background: var(--success);
-            border-radius: 10px;
-            width: 65%; /* Represents 65% progress to next level */
-        }
-        .log-entry {
+        
+        nav {
             display: flex;
             justify-content: space-between;
-            padding: 0.75rem;
-            border-bottom: 1px solid #e2e8f0;
+            align-items: center;
         }
-        .log-entry:last-child {
-            border-bottom: none;
-        }
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            background: var(--warning);
-            color: white;
-            border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-right: 0.5rem;
-        }
-        .map-container {
-            height: 300px;
-            background: #e2e8f0;
-            border-radius: 8px;
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 1.5rem 0;
-            color: #64748b;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1577702312572-5bb9328a7f1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .career-path {
+            background-color: white;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--primary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .timeline-content h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .timeline-content .date {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .timeline-content .kpi {
+            background-color: var(--light);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .timeline-content .kpi span {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            border: 4px solid var(--primary);
+            border-radius: 50%;
+            top: 20px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            right: -13px;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            left: -13px;
+        }
+        
+        .distributor-portal {
+            background-color: var(--light);
+        }
+        
+        .portal-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .portal-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .portal-tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
             font-weight: 600;
         }
-        .team-list {
-            list-style: none;
-            padding: 0;
+        
+        .portal-content {
+            display: none;
         }
-        .team-member {
+        
+        .portal-content.active {
+            display: block;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .dashboard-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
             display: flex;
-            justify-content: space-between;
-            padding: 1rem;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            align-items: center;
+        }
+        
+        .dashboard-card h3 i {
+            margin-right: 10px;
+        }
+        
+        .metrics {
+            background-color: white;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .metric-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .metric-card h3 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .metric-card p {
+            color: var(--gray);
+        }
+        
+        .chart-container {
+            margin-top: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item:nth-child(odd)::after,
+            .timeline-item:nth-child(even)::after {
+                left: 18px;
+            }
+            
+            .dashboard-grid,
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>VendorStack</h1>
-            <p class="subtitle">The Digital Operating System for Africa's Informal Economy</p>
-            <p class="subtitle"><strong>Investor Demo</strong> - Narrating the Vision</p>
-        </header>
-
-        <div class="nav-buttons">
-            <button onclick="showScreen('intro')">Introduction</button>
-            <button onclick="showScreen('vendor')">Vendor App</button>
-            <button onclick="showScreen('manufacturer')">Manufacturer Portal</button>
-            <button onclick="showScreen('metrics')">Key Metrics</button>
-        </div>
-
-        <!-- INTRODUCTION SCREEN -->
-        <div id="intro" class="screen active">
-            <div class="card">
-                <h2>The VendorStack Story</h2>
-                <p>This demo illustrates our proven model, built from a decade of operational experience in Kenya's ice cream supply chain.</p>
-                <p><strong>Our Core Innovation:</strong> A replicable career path that transforms vendors into distributors, creating a defensible ecosystem moat.</p>
-            </div>
-            <div class="stats">
-                <div class="stat-box">
-                    <div class="stat-number">57:1</div>
-                    <div>Portfolio LTV:CAC Ratio</div>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-store"></i>
+                    <span>VendorStack</span>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-number">100%</div>
-                    <div>Loan Repayment Rate</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number">80%</div>
-                    <div>Of Eldoret's Distributors Are Our Alumni</div>
-                </div>
-            </div>
-            <button onclick="showScreen('vendor')">Explore the Vendor Journey →</button>
-        </div>
-
-        <!-- VENDOR APP SCREEN -->
-        <div id="vendor" class="screen">
-            <div class="card">
-                <h2>Vendor App: Vincent's Journey</h2>
-                <p>Vincent is a street vendor. His journey to becoming a business owner starts here.</p>
-            </div>
-
-            <div class="card">
-                <h3>📊 Vincent's Dashboard</h3>
-                <p><strong>Today's Sales:</strong> KES 3,500 | <strong>Commission:</strong> KES 52.5</p>
-                <p><strong>Current Loan Balance:</strong> KES 2,100</p>
-
-                <h4>Career Path Progress</h4>
-                <p><strong>Vendor Level 2</strong> → <strong>Team Leader</strong></p>
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
-                </div>
-                <p>🎯 <strong>Path to Promotion:</strong> Maintain consistent sales for 45 more days.</p>
-            </div>
-
-            <div class="card">
-                <h3>💳 Automated Transaction Ledger</h3>
-                <p>Every sale automatically reconciles repayment and commissions.</p>
-                <div class="log-entry">
-                    <span>Sale: Chocolate Cone</span>
-                    <span>+ KES 100</span>
-                </div>
-                <div class="log-entry">
-                    <span style="color: var(--success);">→ Loan Repayment (1.5%)</span>
-                    <span>- KES 1.5</span>
-                </div>
-                <div class="log-entry">
-                    <span style="color: var(--success);">→ Commission Earned (1.5%)</span>
-                    <span>+ KES 1.5</span>
-                </div>
-                <div class="log-entry">
-                    <span><strong>New Loan Balance:</strong></span>
-                    <span><strong>KES 1,899</strong></span>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>🏆 Gamification & Achievements</h3>
-                <p><span class="badge">🔥</span> <strong>10-Day Streak!</strong> You've sold every day for 10 days.</p>
-                <p><span class="badge">💰</span> <strong>Loan Repaid!</strong> You've successfully repaid your first inventory loan.</p>
-                <p>These achievements unlock higher credit limits and faster progression.</p>
-            </div>
-
-            <button onclick="showScreen('promotion')">See Vincent's Promotion →</button>
-        </div>
-
-        <!-- PROMOTION SCREEN -->
-        <div id="promotion" class="screen">
-            <div class="card" style="text-align: center; background-color: #dbeafe;">
-                <h2>🎉 Congratulations Vincent! 🎉</h2>
-                <p><strong>You've been promoted to Team Leader!</strong></p>
-                <p>You can now manage a team of 3 vendors and earn a 0.5% override on their sales.</p>
-            </div>
-
-            <div class="card">
-                <h3>👥 Your Team Performance</h3>
-                <ul class="team-list">
-                    <li class="team-member">
-                        <span>David (Vendor)</span>
-                        <span>KES 2,800 today</span>
-                    </li>
-                    <li class="team-member">
-                        <span>Sarah (Vendor)</span>
-                        <span>KES 3,100 today</span>
-                    </li>
-                    <li class="team-member">
-                        <span>Mike (Vendor)</span>
-                        <span>KES 2,500 today</span>
-                    </li>
+                <ul class="nav-links">
+                    <li><a href="#career-path">Career Path</a></li>
+                    <li><a href="#distributor-portal">Distributor Portal</a></li>
+                    <li><a href="#metrics">Metrics</a></li>
+                    <li><a href="#contact">Contact</a></li>
                 </ul>
-                <p><strong>Your Team Override Earned Today:</strong> KES 42.0</p>
-            </div>
-            <p><em>This is the ladder of economic mobility we build. Vincent was a vendor in 2019. He is now a distributor in Eldoret managing 6 vendors.</em></p>
-            <button onclick="showScreen('manufacturer')">See the Manufacturer's View →</button>
+            </nav>
         </div>
+    </header>
 
-        <!-- MANUFACTURER PORTAL SCREEN -->
-        <div id="manufacturer" class="screen">
-            <div class="card">
-                <h2>Manufacturer Intelligence Portal</h2>
-                <p>This is the high-value data platform that manufacturers pay for.</p>
-            </div>
-
-            <div class="card">
-                <h3>📍 Real-Time Sales Heatmap</h3>
-                <div class="map-container">
-                    [Map of Kenya showing high sales concentration in Eldoret, Nairobi, Kisii, and Thika]
-                </div>
-                <p><strong>Insight:</strong> 45% of total sales come from Central Kenya region.</p>
-            </div>
-
-            <div class="card">
-                <h3>📈 AI-Powered Demand Forecasting</h3>
-                <p><strong>Product: Chocolate Cone</strong></p>
-                <p>Forecast predicts a <span style="color: var(--success);">15% increase in demand</span> in Machakos County next week, based on historical sales data and weather patterns.</p>
-                <p><strong>Recommendation:</strong> Pre-stock distributors in the area with 15% additional inventory.</p>
-            </div>
-
-            <div class="card">
-                <h3>🏆 Top Performing Distributors</h3>
-                <ol>
-                    <li><strong>Eldoret Distributor (Vincent)</strong> - 28% growth month-on-month</li>
-                    <li>Kisii Franchise Partner - 18% growth</li>
-                    <li>Nairobi (Buru Buru) Distributor - 15% growth</li>
-                </ol>
-            </div>
-            <button onclick="showScreen('metrics')">View Financial Metrics →</button>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Powering The Street Economy</h1>
+            <p>Transforming informal retail through technology, data, and a proven career path model that creates unparalleled loyalty and growth.</p>
+            <a href="#distributor-portal" class="btn">Explore Platform</a>
         </div>
+    </section>
 
-        <!-- KEY METRICS SCREEN -->
-        <div id="metrics" class="screen">
-            <div class="card">
-                <h2>Key Investment Metrics</h2>
-                <p>Validated through our manual MVP and ready to scale with technology.</p>
+    <!-- Career Path Section -->
+    <section id="career-path" class="career-path">
+        <div class="container">
+            <div class="section-title">
+                <h2>Vincent's Career Journey</h2>
+                <p>From entry-level vendor to distributor - how our career path moat creates extreme loyalty and profitability</p>
             </div>
-
-            <div class="stats">
-                <div class="stat-box">
-                    <div class="stat-number">57:1</div>
-                    <div>LTV:CAC Ratio</div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="date">Months 0-6</div>
+                        <h3>Entry-Level Vendor</h3>
+                        <div class="kpi"><span>Sales Target:</span> KES 5,000/day</div>
+                        <div class="kpi"><span>Repayment Rate:</span> 100%</div>
+                        <div class="kpi"><span>Days Worked:</span> 200/240</div>
+                        <p>Vincent starts his journey, building trust through consistent sales and flawless repayment.</p>
+                    </div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-number">100%</div>
-                    <div>Repayment Rate</div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="date">Months 6-12</div>
+                        <h3>Lead Vendor</h3>
+                        <div class="kpi"><span>Performance:</span> Top 10% in region</div>
+                        <div class="kpi"><span>Sales Target:</span> KES 7,500/day</div>
+                        <div class="kpi"><span>Mentorship:</span> Guides 2 new vendors</div>
+                        <p>Recognized as a top performer, Vincent is now in our talent pool for promotion.</p>
+                    </div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-number">₦6.6M</div>
-                    <div>Annualized GMV</div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="date">Year 2</div>
+                        <h3>Team Leader</h3>
+                        <div class="kpi"><span>Team Size:</span> 5 vendors</div>
+                        <div class="kpi"><span>CAC for recruits:</span> KES 1,000 (50% saving)</div>
+                        <div class="kpi"><span>Team Sales:</span> KES 35,000/day</div>
+                        <p>Vincent now manages his own team, halving our acquisition costs for vendors he recruits.</p>
+                    </div>
                 </div>
-            </div>
-
-            <div class="card">
-                <h3>Monetization Strategy</h3>
-                <p><strong>1. Transaction Fee:</strong> 1.5% facilitation fee on inventory loans.</p>
-                <p><strong>2. SaaS Subscription:</strong> KES 5,000/month per manufacturer/distributor for premium analytics.</p>
-                <p><strong>3. Data Intelligence:</strong> Premium market insights reports for large FMCG brands.</p>
-            </div>
-
-            <div class="card">
-                <h3>Immediate Use of Funds</h3>
-                <p><strong>✓ Build Automated Platform:</strong> Systemize our proven manual process.</p>
-                <p><strong>✓ Validate with Captive Network:</strong> 40+ vendors, 3 distributors, 1 manufacturer.</p>
-                <p><strong>✓ Prove Model Across Seasons:</strong> 12-month validation to generate bulletproof data for Seed round.</p>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="date">Year 3+</div>
+                        <h3>Distributor</h3>
+                        <div class="kpi"><span>Network Size:</span> 15+ vendors</div>
+                        <div class="kpi"><span>CAC for network:</span> KES 0</div>
+                        <div class="kpi"><span>Platform Fee:</span> KES 3,000/month</div>
+                        <p>Vincent now operates as a business partner, managing teams autonomously and creating a self-sustaining growth loop.</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <script>
-        function showScreen(screenId) {
-            // Hide all screens
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
-            // Show the requested screen
-            document.getElementById(screenId).classList.add('active');
-        }
-    </script>
-</body>
-            </html>
+    <!-- Distributor Portal Section -->
+    <section id="distributor-portal" class="distributor-portal">
+        <div class="container">
+            <div class="section-title">
+                <h2>Distributor Portal</h2>
+                <p>Powerful tools for managing your vendor network, inventory, and business performance</p>
+            </div>
+            
+            <div class="portal-tabs">
+                <div class="portal-tab active" data-tab="dashboard">Dashboard</div>
+                <div class="portal-tab" data-tab="inventory">Inventory Management</div>
+                <div class="portal-tab" data-tab="performance">Business Performance</div>
+            </div>
+            
+            <div class="portal-content active" id="dashboard-content">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-users"></i> Vendor Network</h3>
+                        <p><strong>15 Active Vendors</strong></p>
+                        <p>3 Team Leaders</p>
+                        <p>Last 7 days: 2 new signups</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-box"></i> Inventory Alert</h3>
+                        <p><strong>Stock Level: 78%</strong></p>
+                        <p>Reorder suggested for Ice Cream</p>
+                        <p>Fast-moving: Juices & Water</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-hand-holding-usd"></i> Loan Status</h3>
+                        <p><strong>Total Active Loans: KES 150,000</strong></p>
+                        <p>Repaid This Week: KES 40,000</p>
+                        <p>Default Rate: 0.2%</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-map-marked-alt"></i> Territory Overview</h3>
+                        <p><strong>Eldoret West Region</strong></p>
+                        <p>Top Performing Area: Town Center</p>
+                        <p>Growth Opportunity: Langas Estate</p>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>Sales Performance (Last 6 Months)</h3>
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="portal-content" id="inventory-content">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-warehouse"></i> Current Inventory</h3>
+                        <p>Ice Cream: 780 units</p>
+                        <p>Juices: 1,200 units</p>
+                        <p>Water: 950 units</p>
+                        <p>Snacks: 450 units</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-truck-loading"></i> Reorder Suggestions</h3>
+                        <p>Ice Cream - 500 units</p>
+                        <p>Water - 300 units</p>
+                        <p>Snacks - 200 units</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-route"></i> Delivery Routes</h3>
+                        <p>Route A: Town Center (8 vendors)</p>
+                        <p>Route B: Langas Estate (5 vendors)</p>
+                        <p>Route C: Pioneer Estate (2 vendors)</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-history"></i> Order History</h3>
+                        <p>Last Order: 3 days ago</p>
+                        <p>Average Order Value: KES 45,000</p>
+                        <p>Supplier Performance: 98% on-time</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="portal-content" id="performance-content">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-chart-line"></i> Revenue</h3>
+                        <p><strong>Monthly: KES 1,203,000</strong></p>
+                        <p>Vendor Sales: KES 1,200,000</p>
+                        <p>Platform Fees: KES 3,000</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-money-bill-wave"></i> Expenses</h3>
+                        <p><strong>Monthly: KES 1,197,000</strong></p>
+                        <p>Cost of Goods: KES 900,000</p>
+                        <p>Operational: KES 251,800</p>
+                        <p>Commissions: KES 45,200</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-coins"></i> Profit & Loss</h3>
+                        <p><strong>Net Profit: KES 6,000</strong></p>
+                        <p>Margin: 0.5%</p>
+                        <p>YTD Growth: +18%</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-trophy"></i> Performance Metrics</h3>
+                        <p>Vendor Retention: 92%</p>
+                        <p>Sales Growth: +12% MoM</p>
+                        <p>Territory Coverage: 65%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Metrics Section -->
+    <section id="metrics" class="metrics">
+        <div class="container">
+            <div class="section-title">
+                <h2>Unit Economics & Growth Projections</h2>
+                <p>How our career path moat transforms unit economics over time</p>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3>4.9:1</h3>
+                    <p>Baseline LTV:CAC Ratio</p>
+                </div>
+                <div class="metric-card">
+                    <h3>100%</h3>
+                    <p>Repayment Rate</p>
+                </div>
+                <div class="metric-card">
+                    <h3>₵0</h3>
+                    <p>Distributor-level CAC</p>
+                </div>
+                <div class="metric-card">
+                    <h3>5+ Years</h3>
+                    <p>Distributor Longevity</p>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3>LTV:CAC Ratio Projection (5 Years)</h3>
+                <canvas id="ltvCacChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-store"></i>
+                <span>VendorStack</span>
+            </div>
+            <p>Powering The Street Economy</p>
+            <p>Contact us: info@vendorstack.com | +254 700 123 456</p>
+    
